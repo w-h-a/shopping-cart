@@ -100,6 +100,7 @@ router.get("/products", (req, res, next) => {
 
 router.post("/products", (req, res, next) => {
   const { title, price, quantity } = req.body;
+  console.log(title, price, quantity);
   Product.create({ title, price, quantity })
     .then((product) => res.json(product))
     .catch((err) => next(err));
@@ -136,6 +137,7 @@ router.delete("/products/:id", (req, res, next) => {
 
 router.post("/add-to-cart", (req, res, next) => {
   const { productId } = req.body;
+  console.log(productId);
   Product.findById(productId)
     .then((product) => {
       if (product.quantity === 0) {

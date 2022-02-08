@@ -1,27 +1,46 @@
-const EditForm = ({ toggleEdit }) =>
-  <div className="edit-form">
-    <h3>Edit Product</h3>
-    <form>
-      <div className="input-group">
-        <label htmlFor="product-name">Product Name</label>
-        <input type="text" id="product-name" value="Apple 10.5-Inch iPad Pro" />
-      </div>
+import { useState } from 'react';
 
-      <div className="input-group">
-        <label htmlFor="product-price">Price</label>
-        <input type="text" id="product-price" value="649.99" />
-      </div>
+const EditForm = ({ product, toggleEdit, onUpdate }) => {
 
-      <div className="input-group">
-        <label htmlFor="product-quantity">Quantity</label>
-        <input type="text" id="product-quantity" value="2" />
-      </div>
+  const [productName, setProductName] = useState(product.title);
+  const [price, setPrice] = useState(product.price);
+  const [quantity, setQuantity] = useState(product.quantity);
 
-      <div className="actions form-actions">
-        <a className="button">Update</a>
-        <a className="button" onClick={toggleEdit}>Cancel</a>
-      </div>
-    </form>
-  </div>
+  const handleUpdate = e => {
+    e.preventDefault();
+    onUpdate(product.id, productName, price, quantity);
+    toggleEdit(e);
+  };
+
+  return (
+    <div className="edit-form">
+      <h3>Edit Product</h3>
+      <form>
+        <div className="input-group">
+          <label htmlFor="product-name">Product Name</label>
+          <input type="text" id="product-name" value={productName}
+                 onChange={e => setProductName(e.target.value)} />
+        </div>
+
+        <div className="input-group">
+          <label htmlFor="product-price">Price</label>
+          <input type="text" id="product-price" value={price}
+                 onChange={e => setPrice(e.target.value)} />
+        </div>
+
+        <div className="input-group">
+          <label htmlFor="product-quantity">Quantity</label>
+          <input type="text" id="product-quantity" value={quantity}
+                 onChange={e => setQuantity(e.target.value)} />
+        </div>
+
+        <div className="actions form-actions">
+          <a href="_blank" className="button" onClick={handleUpdate}>Update</a>
+          <a href="_blank" className="button" onClick={toggleEdit}>Cancel</a>
+        </div>
+      </form>
+    </div>
+  );
+};
 
 export default EditForm;
