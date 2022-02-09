@@ -1,11 +1,15 @@
 import { useState } from "react";
 import EditForm from "./EditForm";
 
-const ProductAction = ({ productId, onEdit, onAdd }) => {
+const ProductAction = ({ productId, quantity, onEdit, onAdd }) => {
 
   const handleAdd = e => {
     e.preventDefault();
-    onAdd(productId);
+    if (quantity > 0) {
+      onAdd(productId);
+    } else {
+      alert("no");
+    }
   };
 
   return (
@@ -40,7 +44,7 @@ const Product = ({ product, onUpdate, onAdd, onDelete }) => {
         {
           editing
             ? <EditForm product={product} toggleEdit={toggleEdit} onUpdate={onUpdate}/>
-            : <ProductAction productId={id} onEdit={toggleEdit} onAdd={onAdd} />
+            : <ProductAction productId={id} quantity={quantity} onEdit={toggleEdit} onAdd={onAdd} />
         }
         <a href="_blank" className="delete-button" onClick={handleDelete}><span>X</span></a>
       </div>

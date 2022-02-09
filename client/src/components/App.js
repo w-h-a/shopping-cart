@@ -5,7 +5,7 @@ import Products from "./Products";
 import Form from "./Form";
 
 import { getAllProducts, addProduct, deleteProduct, updateProduct } from '../services/products';
-import { getCart, addToCart } from '../services/carts';
+import { getCart, addToCart, checkoutCart } from '../services/carts';
 
 const App = () => {
   const [ products, setProducts ] = useState([]);
@@ -25,10 +25,38 @@ const App = () => {
 
   const handleAddToCart = async productId => {
     const newCartItem = await addToCart(productId);
-    const newProducts = await getAllProducts();
-    setProducts(newProducts);
-    setCart([...cart, newCartItem]);
+    updateProducts(newCartItem.product)
+
+    updateCart(newCartItem.item);
   };
+
+  const updateCart = (newItem) => {
+    let exists = false;
+
+    const newCart = cart.map(item => {
+      if (item.productId === newItem.productId) {
+        exists = true;
+        return newItem
+      } else {
+        return item;
+      }
+    });
+
+    if (!exists) newCart.push(newItem);
+
+    setCart(newCart);
+  }
+
+  const updateProducts = (newProduct) => {
+
+    newProduct = { ...newProduct, id: newProduct._id };
+
+    const newProducts = products.map(product => {
+      return product.id === newProduct.id ? newProduct : product;
+    });
+
+    setProducts(newProducts);
+  }
 
   const handleCreateProduct = async (productName, price, quantity) => {
     const newProduct = await addProduct(productName, price, quantity);
@@ -40,6 +68,11 @@ const App = () => {
     const newProductList = products.filter(product => product.id !== productId);
     setProducts(newProductList);
   };
+
+  const handleCheckout = async () => {
+    await checkoutCart();
+    setCart([]);
+  }
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -58,7 +91,7 @@ const App = () => {
     <div id="app">
       <header>
         <h1>The Shop!</h1>
-        <Cart cart={cart}/>
+        <Cart cart={cart} onCheckout={handleCheckout} />
       </header>
       <main>
         <Products products={products} onUpdate={handleUpdateProduct} onAdd={handleAddToCart} onDelete={handleDeleteProduct}/>

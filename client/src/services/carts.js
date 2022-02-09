@@ -11,3 +11,7 @@ export const addToCart = async (productId) => {
   const response = await axios.post(`${API_URI}/add-to-cart`, { productId });
   return response.data;
 };
+
+export const checkoutCart = async () => {
+  await axios.post(`${API_URI}/checkout`);
+}
