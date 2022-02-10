@@ -8,6 +8,10 @@ const products = (state = [], action) => {
                                            ? action.payload.product 
                                            : product
       });
+    case "CREATE_PRODUCT":
+      return state.concat(action.payload.product);
+    case "DELETE_PRODUCT":
+      return state.filter(product => product.id !== action.payload.productId)
     default:
       return state;
   };

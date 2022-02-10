@@ -1,6 +1,10 @@
+import { useSelector } from "react-redux";
 import Product from "./Product";
 
-const Products = ({ products, onUpdate, onAdd, onDelete}) => {
+
+const Products = ({ onUpdate, onAdd, onDelete}) => {
+  const products = useSelector(state => state.products);
+  
   return (
     <div className="product-listing">
       <h2>Products</h2>

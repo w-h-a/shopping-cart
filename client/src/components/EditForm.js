@@ -1,14 +1,19 @@
 import { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { updateProduct } from '../services/products';
+import { productUpdated } from '../actions/productsActions';
 
 const EditForm = ({ product, toggleEdit, onUpdate }) => {
 
   const [productName, setProductName] = useState(product.title);
   const [price, setPrice] = useState(product.price);
   const [quantity, setQuantity] = useState(product.quantity);
+  const dispatch = useDispatch();
 
-  const handleUpdate = e => {
+  const handleUpdate = async e => {
     e.preventDefault();
-    onUpdate(product.id, productName, price, quantity);
+    const updatedProduct = await updateProduct(product.id, productName, price, quantity);
+    dispatch(productUpdated(updatedProduct));
     toggleEdit(e);
   };
 
