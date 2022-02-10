@@ -5,18 +5,13 @@ import Products from "./Products";
 import Form from "./Form";
 import { useDispatch} from "react-redux";
 
-import { getAllProducts, addProduct, deleteProduct, updateProduct } from '../services/products';
+import { getAllProducts, addProduct, deleteProduct } from '../services/products';
 import { getCart, addToCart } from '../services/carts';
 import { productUpdated, setProducts, createProduct, deleteProductAction } from "../actions/productsActions";
 import { addCartItem, setCart } from "../actions/cartActions";
 
 const App = () => {
   const dispatch = useDispatch();
-
-  const handleUpdateProduct = async (id, productName, price, quantity) => {
-    const updatedProduct = await updateProduct(id, productName, price, quantity);
-    dispatch(productUpdated(updatedProduct));
-  };
 
   const handleAddToCart = async productId => {
     const newCartItem = await addToCart(productId);
@@ -55,7 +50,7 @@ const App = () => {
         <Cart />
       </header>
       <main>
-        <Products onUpdate={handleUpdateProduct} onAdd={handleAddToCart} onDelete={handleDeleteProduct}/>
+        <Products onAdd={handleAddToCart} onDelete={handleDeleteProduct}/>
         <Form onCreateProduct={handleCreateProduct} />
       </main>
     </div>

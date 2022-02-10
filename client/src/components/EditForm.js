@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux';
 import { updateProduct } from '../services/products';
 import { productUpdated } from '../actions/productsActions';
 
-const EditForm = ({ product, toggleEdit, onUpdate }) => {
+const EditForm = ({ product, toggleEdit }) => {
 
   const [productName, setProductName] = useState(product.title);
   const [price, setPrice] = useState(product.price);
