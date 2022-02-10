@@ -1,38 +1,24 @@
 import { useState } from "react";
-import EditForm from "./EditForm";
+import { useDispatch } from 'react-redux';
+import { deleteProduct } from "../services/products";
+import { deleteProductAction } from "../actions/productsActions";
+import EditForm from './EditForm';
+import ProductAction from "./ProductAction";
 
-const ProductAction = ({ productId, quantity, onEdit, onAdd }) => {
-
-  const handleAdd = e => {
-    e.preventDefault();
-    if (quantity > 0) {
-      onAdd(productId);
-    } else {
-      alert("no");
-    }
-  };
-
-  return (
-    <div className="actions product-actions">
-      <a href="_blank" className="button add-to-cart" onClick={handleAdd}>Add to Cart</a>
-      <a href="_blank" className="button edit" onClick={onEdit}>Edit</a>
-    </div>
-  );
-};
-
-const Product = ({ product, onUpdate, onAdd, onDelete }) => {
+const Product = ({ product, onUpdate }) => {
   const [ editing, setEditing ] = useState(false);
-
   const { title, price, quantity, id } = product;
+  const dispatch = useDispatch();
 
   const toggleEdit = (e) => {
     e.preventDefault();
     setEditing(!editing);
   };
 
-  const handleDelete = e => {
+  const handleDelete = async e => {
     e.preventDefault();
-    onDelete(id);
+    await deleteProduct(id);
+    dispatch(deleteProductAction(id));
   };
 
   return (
@@ -44,7 +30,7 @@ const Product = ({ product, onUpdate, onAdd, onDelete }) => {
         {
           editing
             ? <EditForm product={product} toggleEdit={toggleEdit} onUpdate={onUpdate}/>
-            : <ProductAction productId={id} quantity={quantity} onEdit={toggleEdit} onAdd={onAdd} />
+            : <ProductAction productId={id} quantity={quantity} onEdit={toggleEdit} />
         }
         <a href="_blank" className="delete-button" onClick={handleDelete}><span>X</span></a>
       </div>

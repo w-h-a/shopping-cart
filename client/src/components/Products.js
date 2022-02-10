@@ -2,7 +2,7 @@ import { useSelector } from "react-redux";
 import Product from "./Product";
 
 
-const Products = ({ onUpdate, onAdd, onDelete}) => {
+const Products = ({ onUpdate, onDelete}) => {
   const products = useSelector(state => state.products);
   
   return (
@@ -11,7 +11,7 @@ const Products = ({ onUpdate, onAdd, onDelete}) => {
       {
         products
           .map(product =>
-            <Product key={product.id} product={product} onUpdate={onUpdate} onAdd={onAdd} onDelete={onDelete}/>
+            <Product key={product.id} product={product} onUpdate={onUpdate} onDelete={onDelete}/>
           )
       }
     </div>

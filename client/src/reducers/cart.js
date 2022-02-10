@@ -4,7 +4,8 @@ const cart = (state = [], action) => {
       const newItem = action.payload.cartItem;
       let exists = false;
 
-      const newCart = cart.map(item => {
+      console.log(state);
+      const newCart = state.map(item => {
         if (item.productId === newItem.productId) {
           exists = true;
           return newItem
@@ -25,26 +26,3 @@ const cart = (state = [], action) => {
 };
 
 export default cart;
-
-
-/*
-
-
-  const updateCart = (newItem) => {
-    let exists = false;
-
-    const newCart = cart.map(item => {
-      if (item.productId === newItem.productId) {
-        exists = true;
-        return newItem
-      } else {
-        return item;
-      }
-    });
-
-    if (!exists) newCart.push(newItem);
-
-    setCart(newCart);
-  }
-
-  */

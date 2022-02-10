@@ -1,35 +1,18 @@
-import { useEffect } from "react";
+import { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 
 import Cart from "./Cart";
 import Products from "./Products";
 import Form from "./Form";
-import { useDispatch} from "react-redux";
 
-import { getAllProducts, addProduct, deleteProduct } from '../services/products';
-import { getCart, addToCart } from '../services/carts';
-import { productUpdated, setProducts, createProduct, deleteProductAction } from "../actions/productsActions";
-import { addCartItem, setCart } from "../actions/cartActions";
+import { getAllProducts } from '../services/products';
+import { getCart } from '../services/carts';
+import { setProducts } from "../actions/productsActions";
+import { setCart } from "../actions/cartActions";
 
 const App = () => {
   const dispatch = useDispatch();
 
-  const handleAddToCart = async productId => {
-    const newCartItem = await addToCart(productId);
-    const transformedItem = { ...newCartItem.product, id: newCartItem.product._id };
-    dispatch(productUpdated(transformedItem))
-    dispatch(addCartItem(newCartItem.item))    
-  };
-
-  const handleCreateProduct = async (productName, price, quantity) => {
-    const newProduct = await addProduct(productName, price, quantity);
-    dispatch(createProduct(newProduct));
-  };
-
-  const handleDeleteProduct = async productId => {
-    await deleteProduct(productId);
-    dispatch(deleteProductAction(productId))
-  };
-  
   useEffect(() => {
     const fetchProducts = async () => {
       const data = await getAllProducts();
@@ -50,8 +33,8 @@ const App = () => {
         <Cart />
       </header>
       <main>
-        <Products onAdd={handleAddToCart} onDelete={handleDeleteProduct}/>
-        <Form onCreateProduct={handleCreateProduct} />
+        <Products />
+        <Form />
       </main>
     </div>
   );
