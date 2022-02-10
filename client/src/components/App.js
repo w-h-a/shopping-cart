@@ -5,22 +5,22 @@ import Cart from "./Cart";
 import Products from "./Products";
 import Form from "./Form";
 
-import { getAllProducts } from '../services/products';
-import { getCart } from '../services/carts';
-import { setProducts } from "../actions/productsActions";
-import { setCart } from "../actions/cartActions";
+import productService from '../services/products';
+import cartService from '../services/carts';
+import productActions from "../actions/productActions";
+import cartActions from "../actions/cartActions";
 
 const App = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
     const fetchProducts = async () => {
-      const data = await getAllProducts();
-      dispatch(setProducts(data));
+      const data = await productService.getAllProducts();
+      dispatch(productActions.setProducts(data));
     };
     const fetchCart = async () => {
-      const data = await getCart();
-      dispatch(setCart(data))
+      const data = await cartService.getCart();
+      dispatch(cartActions.setCart(data))
     };
     fetchProducts();
     fetchCart();

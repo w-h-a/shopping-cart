@@ -1,11 +1,11 @@
 import { useState } from "react";
 import { useDispatch } from 'react-redux';
-import { deleteProduct } from "../services/products";
-import { deleteProductAction } from "../actions/productsActions";
+import productService from "../services/products";
+import productActions from "../actions/productActions";
 import EditForm from './EditForm';
-import ProductAction from "./ProductAction";
+import ProductControls from "./ProductControls";
 
-const Product = ({ product, onUpdate }) => {
+const Product = ({ product }) => {
   const [ editing, setEditing ] = useState(false);
   const { title, price, quantity, id } = product;
   const dispatch = useDispatch();
@@ -17,8 +17,8 @@ const Product = ({ product, onUpdate }) => {
 
   const handleDelete = async e => {
     e.preventDefault();
-    await deleteProduct(id);
-    dispatch(deleteProductAction(id));
+    await productService.deleteProduct(id);
+    dispatch(productActions.productDeleted(id));
   };
 
   return (
@@ -29,8 +29,8 @@ const Product = ({ product, onUpdate }) => {
         <p className="quantity">{quantity} left in stock</p>
         {
           editing
-            ? <EditForm product={product} toggleEdit={toggleEdit} onUpdate={onUpdate}/>
-            : <ProductAction productId={id} quantity={quantity} onEdit={toggleEdit} />
+            ? <EditForm product={product} toggleEdit={toggleEdit}/>
+            : <ProductControls productId={id} quantity={quantity} onEdit={toggleEdit} />
         }
         <a href="_blank" className="delete-button" onClick={handleDelete}><span>X</span></a>
       </div>
