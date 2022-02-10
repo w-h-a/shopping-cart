@@ -3,23 +3,31 @@ import { useState, useEffect } from "react";
 import Cart from "./Cart";
 import Products from "./Products";
 import Form from "./Form";
+import { useSelector, useDispatch} from "react-redux";
 
 import { getAllProducts, addProduct, deleteProduct, updateProduct } from '../services/products';
 import { getCart, addToCart, checkoutCart } from '../services/carts';
+import { productUpdated, setProducts } from "../actions/productsActions";
+
 
 const App = () => {
   const [ products, setProducts ] = useState([]);
   const [ cart, setCart ] = useState([]);
+  const dispatch = useDispatch();
 
   const handleUpdateProduct = async (id, productName, price, quantity) => {
     const updatedProduct = await updateProduct(id, productName, price, quantity);
+    //dispatch action to a reducer
+    dispatch(productUpdated(updatedProduct));
+
+    // react hook
     const newProductList = products.map(product => {
       if (product.id === id) {
         return updatedProduct;
       } else {
         return product;
       }
-    });
+    });    
     setProducts(newProductList);
   };
 
@@ -77,6 +85,10 @@ const App = () => {
   useEffect(() => {
     const fetchProducts = async () => {
       const data = await getAllProducts();
+      // redux store
+      dispatch(setProducts(data));
+
+      // react hook 
       setProducts(data);
     };
     const fetchCart = async () => {
@@ -85,7 +97,7 @@ const App = () => {
     };
     fetchProducts();
     fetchCart();
-  }, []);
+  }, [dispatch]);
 
   return (
     <div id="app">
