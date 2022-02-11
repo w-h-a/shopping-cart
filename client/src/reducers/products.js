@@ -3,11 +3,7 @@ const products = (state = [], action) => {
     case "SET_PRODUCTS":
       return action.payload.products;
     case "UPDATE_PRODUCT":
-      return state.map(product => {
-          return action.payload.product.id === product.id 
-                                           ? action.payload.product 
-                                           : product
-      });
+      return updateProduct(state, action.payload.product);
     case "CREATE_PRODUCT":
       return state.concat(action.payload.product);
     case "DELETE_PRODUCT":
@@ -15,6 +11,16 @@ const products = (state = [], action) => {
     default:
       return state;
   };
+};
+
+const updateProduct = (products, updatedProduct) => {
+  return products.map(product => {
+    if (updatedProduct.id === product.id) {
+      return updatedProduct;
+    } else {
+      return product;
+    }
+  });
 };
 
 export default products;

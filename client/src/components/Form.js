@@ -1,10 +1,10 @@
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { addProduct } from '../services/products';
-import { createProduct } from '../actions/productsActions';
+import productService from '../services/products';
+import productActions from '../actions/productActions';
 
 const Form = () => {
-  const [ formVisible, setFormVisible ] = useState(false);
+  const [formVisible, setFormVisible] = useState(false);
   const [productName, setProductName] = useState('');
   const [price, setPrice] = useState('');
   const [quantity, setQuantity] = useState('');
@@ -23,8 +23,8 @@ const Form = () => {
 
   const handleCreateProduct = async e => {
     e.preventDefault();
-    const newProduct = await addProduct(productName, price, quantity);
-    dispatch(createProduct(newProduct));
+    const newProduct = await productService.addProduct(productName, price, quantity);
+    dispatch(productActions.productCreated(newProduct));
     resetForm();
     toggleForm(e);
   };
