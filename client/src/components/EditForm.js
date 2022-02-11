@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import productService from '../services/products';
 import productActions from '../actions/productActions';
 
 const EditForm = ({ product }) => {
@@ -9,15 +8,20 @@ const EditForm = ({ product }) => {
   const [quantity, setQuantity] = useState(product.quantity);
   const dispatch = useDispatch();
 
-  const handleCancel = async e => {
+  const handleCancel = e => {
     e.preventDefault();
     dispatch(productActions.removeEditingProductId(product.id));
   };
 
-  const handleUpdate = async e => {
+  const handleUpdate = e => {
     e.preventDefault();
-    const updatedProduct = await productService.putProduct({ id: product.id, title: productName, price, quantity });
-    dispatch(productActions.putProductSuccess(updatedProduct));
+    const p = {
+      id: product.id,
+      title: productName,
+      price: price,
+      quantity: quantity,
+    };
+    dispatch(productActions.updateProduct(p));
   };
 
   return (
@@ -50,7 +54,7 @@ const EditForm = ({ product }) => {
             type="text"
             id="product-quantity"
             value={quantity}
-            onChange={e => setQuantity(e.target.value)} 
+            onChange={e => setQuantity(e.target.value)}
           />
         </div>
 

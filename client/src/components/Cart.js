@@ -1,25 +1,17 @@
 import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import CartItems from "./CartItems";
-import cartService from "../services/cart";
 import cartActions from "../actions/cartActions";
 
 const Cart = () => {
   const cartItems = useSelector(state => state.cart.items);
   const dispatch = useDispatch()
 
-  useEffect(() => {
-    const fetchCart = async () => {
-      const data = await cartService.getAllCartItems();
-      dispatch(cartActions.getAllCartItemsSuccess(data));
-    };
-    fetchCart();
-  }, [dispatch]);
+  useEffect(() => dispatch(cartActions.readAllCartItems()), [dispatch]);
 
-  const handleCheckout = async e => {
+  const handleCheckout = e => {
     e.preventDefault();
-    await cartService.postCheckout();
-    dispatch(cartActions.postCheckoutSuccess());
+    dispatch(cartActions.createCheckout());
   };
 
   return (

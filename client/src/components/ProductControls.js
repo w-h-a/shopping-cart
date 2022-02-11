@@ -1,7 +1,6 @@
 import { useSelector, useDispatch } from "react-redux";
 import productActions from "../actions/productActions";
 import EditForm from "./EditForm";
-import cartService from "../services/cart";
 import cartActions from "../actions/cartActions";
 
 const ProductControls = ({ product }) => {
@@ -13,11 +12,10 @@ const ProductControls = ({ product }) => {
     dispatch(productActions.setEditingProductId(product.id));
   };
 
-  const insertIntoCart = async e => {
+  const insertIntoCart = e => {
     e.preventDefault();
     if (product.quantity > 0) {
-      const strangeChimera = await cartService.postCartItem(product.id)
-      dispatch(cartActions.postCartItemSuccess(strangeChimera));
+      dispatch(cartActions.createCartItem(product.id));
     } else {
       alert("absolutely not!");
     }

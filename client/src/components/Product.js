@@ -1,15 +1,13 @@
 import { useDispatch } from "react-redux";
 import ProductControls from "./ProductControls";
-import productService from "../services/products";
 import productActions from "../actions/productActions";
 
 const Product = ({ product }) => {
   const dispatch = useDispatch();
 
-  const handleDelete = async e => {
+  const handleDelete = e => {
     e.preventDefault();
-    await productService.deleteProduct(product.id)
-    dispatch(productActions.deleteProductSuccess(product.id));
+    dispatch(productActions.deleteProduct(product.id));
   };
 
   return (

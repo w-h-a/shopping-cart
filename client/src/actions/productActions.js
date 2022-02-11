@@ -1,3 +1,5 @@
+import productService from "../services/products";
+
 const getAllProductsSuccess = products =>
   ({
     type: "GET_ALL_PRODUCTS_SUCCESS",
@@ -39,6 +41,31 @@ const deleteProductSuccess = productId =>
     payload: { productId }
   });
 
+// action creators
+const readAllProducts = () =>
+  async dispatch => {
+    const products = await productService.getAllProducts();
+    dispatch(getAllProductsSuccess(products));
+  };
+
+const createProduct = product =>
+  async dispatch => {
+    const newProduct = await productService.postProduct(product);
+    dispatch(postProductSuccess(newProduct));
+  };
+
+const deleteProduct = productId =>
+  async dispatch => {
+    await productService.deleteProduct(productId);
+    dispatch(deleteProductSuccess(productId));
+  };
+
+const updateProduct = product =>
+  async dispatch => {
+    const updatedProduct = await productService.putProduct(product);
+    dispatch(putProductSuccess(updatedProduct));
+  };
+
 const productActions = {
   getAllProductsSuccess,
   postProductSuccess,
@@ -47,6 +74,10 @@ const productActions = {
   setEditingProductId,
   removeEditingProductId,
   deleteProductSuccess,
+  createProduct,
+  readAllProducts,
+  updateProduct,
+  deleteProduct,
 };
 
 export default productActions;

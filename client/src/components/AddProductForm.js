@@ -1,6 +1,5 @@
 import { useSelector, useDispatch } from "react-redux";
 import productActions from "../actions/productActions";
-import productService from "../services/products";
 
 const AddProductForm = () => {
   const isAddingProduct = useSelector(state => state.products.isAddingProduct);
@@ -11,16 +10,15 @@ const AddProductForm = () => {
     dispatch(productActions.toggleAddProductForm());
   }
 
-  const addProduct = async e => {
+  const addProduct = e => {
     e.preventDefault();
     const product = {
       title: e.target[0].value,
       price: e.target[1].value,
       quantity: e.target[2].value,
     };
-    const newProduct = await productService.postProduct(product);
     e.target.reset();
-    dispatch(productActions.postProductSuccess(newProduct));
+    dispatch(productActions.createProduct(product));
   };
 
   return (
