@@ -1,35 +1,45 @@
+import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import cartActions from "../actions/cartActions";
-import cartService from "../services/carts";
 import CartItems from "./CartItems";
+import cartService from "../services/cart";
+import cartActions from "../actions/cartActions";
 
 const Cart = () => {
-  const cart = useSelector(state => state.cart);
-  const dispatch = useDispatch();
-  const cartQuantity = cart.reduce((sum, item) => sum + item.quantity, 0);
-  const BUTTON_CLASS = 'button checkout'
-  const DISABLED_BUTTON_CLASS = BUTTON_CLASS + ' disabled';
+  const cartItems = useSelector(state => state.cart.items);
+  const dispatch = useDispatch()
 
-  const buttonClass = cart => {
-    if (cartQuantity === 0) {
-      return DISABLED_BUTTON_CLASS;
-    } else {
-      return BUTTON_CLASS;
-    }
-  };
+  useEffect(() => {
+    const fetchCart = async () => {
+      const data = await cartService.getAllCartItems();
+      dispatch(cartActions.getAllCartItemsSuccess(data));
+    };
+    fetchCart();
+  }, [dispatch]);
 
-  const handleCheckout = async e => {
+  const handleCheckOut = async e => {
     e.preventDefault();
-    await cartService.checkoutCart();
-    dispatch(cartActions.itemDeleted());
+    await cartService.postCheckout();
+    dispatch(cartActions.postCheckoutSuccess());
   };
 
   return (
     <div className="cart">
       <h2>Your Cart</h2>
-      {cart.length === 0 ? <p>Your cart is empty</p> : <p>You have {cartQuantity} items in cart.</p>}
-      <a href="_blank" className={buttonClass(cart)} onClick={handleCheckout}>Checkout</a>
-      {(cartQuantity > 0) ? <CartItems /> : null}
+      {
+        cartItems.length === 0
+          ? <>
+              <p>Fill your cart!</p>
+              <p>Total: $0</p>
+            </>
+          : <CartItems />
+      }
+      <a
+        href="_blank"
+        className={cartItems.length === 0 ? "button checkout disabled" : "button checkout"}
+        onClick={handleCheckOut}
+      >
+        Checkout
+      </a>
     </div>
   );
 };

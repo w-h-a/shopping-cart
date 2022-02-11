@@ -1,33 +1,52 @@
-const productUpdated = (product) => {
-  return {
-    type: "UPDATE_PRODUCT",
-    payload: { product }
-  }
-};
+const getAllProductsSuccess = products =>
+  ({
+    type: "GET_ALL_PRODUCTS_SUCCESS",
+    payload: { products }
+  });
 
-const setProducts = (products) => {
-  return { type: "SET_PRODUCTS", payload: { products } }
-};
+const postProductSuccess = newProduct =>
+  ({
+    type: "POST_PRODUCT_SUCCESS",
+    payload: { newProduct }
+  });
 
-const productCreated = (product) => {
-  return {
-    type: "CREATE_PRODUCT",
-    payload: { product }
-  }
-};
+const toggleAddProductForm = () =>
+  ({
+    type: "TOGGLE_ADD_PRODUCT_FORM"
+  });
 
-const productDeleted = (productId) => {
-  return {
-    type: "DELETE_PRODUCT",
+const putProductSuccess = updatedProduct =>
+  ({
+    type: "PUT_PRODUCT_SUCCESS",
+    payload: { updatedProduct }
+  });
+
+const setEditingProductId = productId =>
+  ({
+    type: "SET_EDITING_PRODUCT_ID",
     payload: { productId }
-  }
-};
+  });
+
+const removeEditingProductId = productId =>
+  ({
+    type: "REMOVE_EDITING_PRODUCT_ID",
+    payload: { productId }
+  });
+
+const deleteProductSuccess = productId =>
+  ({
+    type: "DELETE_PRODUCT_SUCCESS",
+    payload: { productId }
+  });
 
 const productActions = {
-  productUpdated,
-  setProducts,
-  productCreated,
-  productDeleted,
+  getAllProductsSuccess,
+  postProductSuccess,
+  toggleAddProductForm,
+  putProductSuccess,
+  setEditingProductId,
+  removeEditingProductId,
+  deleteProductSuccess,
 };
 
 export default productActions;

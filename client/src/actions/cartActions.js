@@ -1,27 +1,24 @@
-const itemAdded = (cartItem) => {
-  return {
-    type: "ADD_CART_ITEM",
-    payload: { cartItem }
-  }
-};
+const postCartItemSuccess = cartItemAndMutatedProduct =>
+  ({
+    type: "POST_CART_ITEM_SUCCESS",
+    payload: { cartItemAndMutatedProduct }
+  });
 
-const setCart = (cartItems) => {
-  return {
-    type: "SET_CART",
+const getAllCartItemsSuccess = cartItems =>
+  ({
+    type: "GET_ALL_CART_ITEMS_SUCCESS",
     payload: { cartItems }
-  }
-};
+  });
 
-const itemDeleted = () => {
-  return {
-    type: "DELETE_CART_ITEMS"
-  }
-};
+const postCheckoutSuccess = () =>
+  ({
+    type: "POST_CHECKOUT_SUCCESS",
+  });
 
 const cartActions = {
-  itemAdded,
-  setCart,
-  itemDeleted,
+  postCartItemSuccess,
+  getAllCartItemsSuccess,
+  postCheckoutSuccess,
 };
 
 export default cartActions;
