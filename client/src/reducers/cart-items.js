@@ -9,8 +9,8 @@ const cart = (state = initState, action) => {
       return {
         ...state,
         items:
-          state.items.some(ci => ci._id === item._id)
-            ? state.items.map(ci => ci._id === item._id ? item : ci)
+          state.items.some(cartItem => cartItem._id === item._id)
+            ? state.items.map(cartItem => cartItem._id === item._id ? item : cartItem)
             : [ ...state.items, item ]
       };
     case "GET_ALL_CART_ITEMS_SUCCESS":

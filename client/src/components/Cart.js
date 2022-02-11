@@ -16,7 +16,7 @@ const Cart = () => {
     fetchCart();
   }, [dispatch]);
 
-  const handleCheckOut = async e => {
+  const handleCheckout = async e => {
     e.preventDefault();
     await cartService.postCheckout();
     dispatch(cartActions.postCheckoutSuccess());
@@ -36,7 +36,7 @@ const Cart = () => {
       <a
         href="_blank"
         className={cartItems.length === 0 ? "button checkout disabled" : "button checkout"}
-        onClick={handleCheckOut}
+        onClick={handleCheckout}
       >
         Checkout
       </a>
