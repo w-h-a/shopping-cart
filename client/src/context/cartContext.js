@@ -1,6 +1,5 @@
 import { useReducer, createContext } from 'react';
 import cartService from '../services/cart';
-import { updateProduct } from './productContext';
 
 const CartContext = createContext();
 
@@ -36,7 +35,7 @@ const addToCart = async (cartDispatch, productDispatch, productId) => {
   const strangeChimera = await cartService.addToCart(productId);
   cartDispatch({ type: 'ADDED_TO_CART', payload: { cartItem: strangeChimera.item }})
   const updatedProduct = { ...strangeChimera.product, id: strangeChimera.product._id };
-  updateProduct(productDispatch, updatedProduct);
+  productDispatch({ type: 'PRODUCT_UPDATED', payload: { updatedProduct } });
 };
 
 const checkoutCart = async (dispatch) => {

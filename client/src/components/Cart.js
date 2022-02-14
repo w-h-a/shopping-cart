@@ -1,7 +1,7 @@
 import { useEffect, useContext } from 'react';
 import { CartContext, checkoutCart, getCart } from '../context/cartContext';
 
-const Cart = ({ cart }) => {
+const Cart = () => {
   const { cartItems, dispatch } = useContext(CartContext);
 
   useEffect(() => {
