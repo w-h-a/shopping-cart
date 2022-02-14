@@ -1,14 +1,22 @@
-import { useState } from 'react';
+import { useState, useContext } from 'react';
+import { ProductContext, updateProduct } from '../context/productContext';
 
-const EditForm = ({ product, toggleEdit, onUpdate }) => {
-
+const EditForm = ({ product, toggleEdit }) => {
   const [productName, setProductName] = useState(product.title);
   const [price, setPrice] = useState(product.price);
   const [quantity, setQuantity] = useState(product.quantity);
 
+  const { dispatch } = useContext(ProductContext);
+
   const handleUpdate = e => {
     e.preventDefault();
-    onUpdate(product.id, productName, price, quantity);
+    const updatedProduct = {
+      title: productName,
+      price,
+      quantity,
+      id: product.id,
+    };
+    updateProduct(dispatch, updatedProduct);
     toggleEdit(e);
   };
 

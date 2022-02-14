@@ -1,22 +1,28 @@
-import { useState } from 'react';
+import { useState, useContext } from 'react';
+import { createProduct, ProductContext } from '../context/productContext';
 
-const Form = ({ onCreateProduct }) => {
+const Form = () => {
   const [ formVisible, setFormVisible ] = useState(false);
   const [productName, setProductName] = useState('');
   const [price, setPrice] = useState('');
   const [quantity, setQuantity] = useState('');
+
+  const { dispatch } = useContext(ProductContext);
 
   const toggleForm = e => {
     e.preventDefault();
     setFormVisible(!formVisible);
   };
 
-  const handleCreateProduct = e => {
-    e.preventDefault();
-    onCreateProduct(productName, price, quantity);
+  const resetForm = () => {
     setProductName('');
     setPrice('');
     setQuantity('');
+  };
+
+  const handleCreateProduct = e => {
+    e.preventDefault();
+    createProduct(dispatch, { title: productName, price, quantity }, resetForm);
     toggleForm(e);
   };
 

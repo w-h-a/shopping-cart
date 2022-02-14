@@ -1,12 +1,17 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
+
+import { ProductContext, deleteProduct } from '../context/productContext';
+import { CartContext, addToCart } from '../context/cartContext';
 import EditForm from "./EditForm";
 
-const ProductAction = ({ productId, quantity, onEdit, onAdd }) => {
+const ProductAction = ({ productId, quantity, onEdit }) => {
+  const { dispatch: cartDispatch } = useContext(CartContext);
+  const { dispatch: productDispatch } = useContext(ProductContext);
 
   const handleAdd = e => {
     e.preventDefault();
     if (quantity > 0) {
-      onAdd(productId);
+      addToCart(cartDispatch, productDispatch, productId) ;
     } else {
       alert("no");
     }
@@ -20,8 +25,9 @@ const ProductAction = ({ productId, quantity, onEdit, onAdd }) => {
   );
 };
 
-const Product = ({ product, onUpdate, onAdd, onDelete }) => {
+const Product = ({ product }) => {
   const [ editing, setEditing ] = useState(false);
+  const { dispatch } = useContext(ProductContext);
 
   const { title, price, quantity, id } = product;
 
@@ -32,7 +38,7 @@ const Product = ({ product, onUpdate, onAdd, onDelete }) => {
 
   const handleDelete = e => {
     e.preventDefault();
-    onDelete(id);
+    deleteProduct(dispatch, id);
   };
 
   return (
@@ -43,8 +49,8 @@ const Product = ({ product, onUpdate, onAdd, onDelete }) => {
         <p className="quantity">{quantity} left in stock</p>
         {
           editing
-            ? <EditForm product={product} toggleEdit={toggleEdit} onUpdate={onUpdate}/>
-            : <ProductAction productId={id} quantity={quantity} onEdit={toggleEdit} onAdd={onAdd} />
+            ? <EditForm product={product} toggleEdit={toggleEdit}/>
+            : <ProductAction productId={id} quantity={quantity} onEdit={toggleEdit} />
         }
         <a href="_blank" className="delete-button" onClick={handleDelete}><span>X</span></a>
       </div>

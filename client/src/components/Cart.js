@@ -1,15 +1,24 @@
-const Cart = ({ cart, onCheckout }) => {
+import { useEffect, useContext } from 'react';
+import { CartContext, checkoutCart, getCart } from '../context/cartContext';
+
+const Cart = ({ cart }) => {
+  const { cartItems, dispatch } = useContext(CartContext);
+
+  useEffect(() => {
+    getCart(dispatch);
+  }, [dispatch]);
+
   const handleCheckout = (e) => {
     e.preventDefault();
-    onCheckout();
-  }
+    checkoutCart(dispatch);
+  };
 
   return (
     <div className="cart">
       <h2>Your Cart</h2>
-      {cart.length === 0 ? <p>Your cart is empty</p> : <p>You have {calculateCartItems(cart)} items in cart.</p>}
-      <a href="_blank" className={generateButtonClass(cart)} onClick={handleCheckout}>Checkout</a>
-      {(calculateCartItems(cart) > 0) ? <CartItems cart={cart} /> : null}
+      {cartItems.length === 0 ? <p>Your cart is empty</p> : <p>You have {calculateCartItems(cartItems)} items in cart.</p>}
+      <a href="_blank" className={generateButtonClass(cartItems)} onClick={handleCheckout}>Checkout</a>
+      {(calculateCartItems(cartItems) > 0) ? <CartItems cart={cartItems} /> : null}
     </div>
   );
 };
